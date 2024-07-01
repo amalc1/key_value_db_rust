@@ -73,7 +73,10 @@ impl BST {
                     Some(&node.value)
                 }
             }
-            None => None,
+            None => {
+                print!("key not found \n");
+                None
+            },
         }
     }
 
