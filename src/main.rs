@@ -1,44 +1,19 @@
-use std::collections::BTreeMap;
+// main.rs
 
-#[derive(Debug)]
-struct MemoryDb {
-    data:  BTreeMap<i32, String>,
-}
-
-impl MemoryDb {
-    // Constructor method to create a new MemoryDb instance
-    fn new() -> Self {
-        MemoryDb {
-            data: BTreeMap::new(),
-        }
-    }
-
-    // Method to put a key-value pair into the database
-    fn put(&mut self, key: i32, value: &str) {
-        
-
-     // Insert or update the key-value pair
-     self.data.insert(key, value.to_string());   
-
-}
-
-     // Method to get the value associated with a key from the database
-     fn get(&self, key: i32) -> Option<&str> {
-
-        // Retrieve the value for the key
-        self.data.get(&key).map(|s| s.as_str())
-    }
-
-}
+mod b_tree;
+use b_tree::BST;
 
 fn main() {
-    let mut db = MemoryDb::new();
+    let mut memory_db = BST::new();
 
-    db.put(1, "sam");
-    println!("{:?}", db.get(1)); // Output: Some("sam")
-    // Overwriting the value for key 1
-    db.put(1, "sammy");
-    db.put(2, "samantha");
-    println!("{:?}", db.get(1)); // Output: Some("sammy")
-    println!("{:?}", db.get(2)); // Output: Some("samantha")
+    memory_db.put(1, "sam".to_string());
+    println!("{:?}", memory_db.get(1)); 
+     // Overwriting the value for key 1
+    memory_db.put(1, "sammy".to_string());
+    memory_db.put(2, "samantha".to_string());
+    memory_db.put(3, "john samuel".to_string());
+    memory_db.put(4, "aravind raj".to_string());
+   
+    println!("printing values on key order"); 
+    memory_db.print_in_order(); 
 }
