@@ -1,19 +1,15 @@
-#[derive(Debug)]
-struct MemoryDb {
-    data: Vec<KeyValue>,
-}
+use std::collections::BTreeMap;
 
 #[derive(Debug)]
-struct KeyValue {
-    key: String,
-    value: String,
+struct MemoryDb {
+    data:  BTreeMap<String, String>,
 }
 
 impl MemoryDb {
     // Constructor method to create a new MemoryDb instance
     fn new() -> Self {
         MemoryDb {
-            data: Vec::new(),
+            data: BTreeMap::new(),
         }
     }
 
@@ -25,33 +21,23 @@ impl MemoryDb {
             return;
         }
 
-        // Check if the key already exists
-         match self.data.iter_mut().find(|item| item.key == key) {
-            Some(existing) => existing.value = value.to_string(), // Update existing value
-            None => self.data.push(KeyValue {
-                key: key.to_string(),
-                value: value.to_string(),
-            }), // Add new key-value pair
-        }
-    }
+     // Insert or update the key-value pair
+     self.data.insert(key.to_string(), value.to_string());   
 
-    // Method to get the value associated with a key from the database
-    fn get(&self, key: &str) -> Option<&str> {
+}
+
+     // Method to get the value associated with a key from the database
+     fn get(&self, key: &str) -> Option<&str> {
         // Check if key is empty    
         if key.is_empty() {
             eprintln!("Error: Key cannot be empty.");
             return None;
         }
 
-        // Search for the key in the database
-        match self.data.iter().find(|item| item.key == key) {
-            Some(item) => Some(&item.value),
-            None => {
-                eprintln!("Error: Key doesn't exist in db.");
-                None
-            }
-        }
+        // Retrieve the value for the key
+        self.data.get(key).map(|s| s.as_str())
     }
+
 }
 
 fn main() {
