@@ -2,7 +2,7 @@ use std::collections::BTreeMap;
 
 #[derive(Debug)]
 struct MemoryDb {
-    data:  BTreeMap<String, String>,
+    data:  BTreeMap<i32, String>,
 }
 
 impl MemoryDb {
@@ -14,28 +14,19 @@ impl MemoryDb {
     }
 
     // Method to put a key-value pair into the database
-    fn put(&mut self, key: &str, value: &str) {
-        // Check if key or value is empty
-        if key.is_empty() {
-            eprintln!("Error: Key cannot be empty.");
-            return;
-        }
+    fn put(&mut self, key: i32, value: &str) {
+        
 
      // Insert or update the key-value pair
-     self.data.insert(key.to_string(), value.to_string());   
+     self.data.insert(key, value.to_string());   
 
 }
 
      // Method to get the value associated with a key from the database
-     fn get(&self, key: &str) -> Option<&str> {
-        // Check if key is empty    
-        if key.is_empty() {
-            eprintln!("Error: Key cannot be empty.");
-            return None;
-        }
+     fn get(&self, key: i32) -> Option<&str> {
 
         // Retrieve the value for the key
-        self.data.get(key).map(|s| s.as_str())
+        self.data.get(&key).map(|s| s.as_str())
     }
 
 }
@@ -43,11 +34,11 @@ impl MemoryDb {
 fn main() {
     let mut db = MemoryDb::new();
 
-    db.put("name", "sam");
-    println!("{:?}", db.get("name")); 
-    // over writing name with new value sammy
-    db.put("name", "sammy"); 
-    db.put("name2", "samantha"); 
-    println!("{:?}", db.get("name")); 
-    println!("{:?}", db.get("name2")); 
+    db.put(1, "sam");
+    println!("{:?}", db.get(1)); // Output: Some("sam")
+    // Overwriting the value for key 1
+    db.put(1, "sammy");
+    db.put(2, "samantha");
+    println!("{:?}", db.get(1)); // Output: Some("sammy")
+    println!("{:?}", db.get(2)); // Output: Some("samantha")
 }
